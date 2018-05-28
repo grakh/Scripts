@@ -612,7 +612,7 @@ function rect(mi) {
 
  }
 
-if (xInks.length*5*3*mm > wi/2) lenBool = true;
+if (xInks.length*5*3*mm > wi/3) lenBool = true;
  //alert (xInks.length*5*3*mm+" "+wi/2+" "+lenBool);
 if (dlg.panel4.GRW.combo.find("[None]")==null){
 	
@@ -752,19 +752,19 @@ sk = sInks;
 se=sk.length;
 
 var textNamb =  newLayer.textFrames.add();
-textNamb.textRange.characterAttributes.size = 10;
+textNamb.textRange.characterAttributes.size = 8.4;
 textNamb.contents = Namb;
 //textNamb.rotate(90);
 textNamb.left = lent;
 textNamb.textRange.characterAttributes.fillColor =app.activeDocument.swatches[Registr].color;
-textNamb.top =   -5*mm;
+textNamb.top =   -6*mm;
 
 if (Opaq!=None) sk[se] =  Opaq;
 //alert(''+sk[se]);
 for (i = 0; i<sk.length; i++){
 var TextC = "";
 var textRef =  T1.textFrames.add();
-textRef.textRange.characterAttributes.size = 10;
+textRef.textRange.characterAttributes.size = 8.4;
 textRef.contents = TextC;
 textRef.rotate(90);
 textRef.left = 1*mm;
@@ -789,8 +789,8 @@ textRef.contents = TextC;
 //textRef.createOutline();
 
 T1.rotate(-90);
-T1.top =   -5*mm;
-T1.left = textNamb.left + textNamb.textRange.characters.length*4.5;
+T1.top =   -6*mm;
+T1.left = textNamb.left + textNamb.textRange.characters.length*4;
 
 strelka = newLayer.pathItems.add();
 strelka.setEntirePath( Array( Array(0, 0), Array(0, -1.314*mm), Array(2.95*mm, -1.314*mm), Array(2.47*mm, -0.487*mm), Array(4.778*mm, -1.43*mm),Array(2.47*mm, -2.373*mm),Array(2.95*mm, -1.546*mm),Array(0, -1.546*mm),Array(0, -3*mm),Array(5*mm, -3*mm),Array(5*mm, 0) ) );
@@ -799,13 +799,13 @@ strelka.filled = true;
 strelka.stroked = false;
 strelka.fillColor =app.activeDocument.swatches[Registr].color;
 strelka.fillOverprint = true;
-strelka.top =   -5*mm;
+strelka.top =   -6*mm;
 strelka.left= T1.left+T1.width +5*mm;
 }
 
 
 function auto(){
-	d = 10;
+	d = 30;
 
 re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
 re.setEntirePath( Array( Array(wi-d*mm, hi+5*mm), Array(wi-d*mm, hi+9*mm), Array(wi-(d+2.5)*mm, hi+9*mm), Array(wi-(d+2.5)*mm, hi+5*mm) ) );
