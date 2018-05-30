@@ -807,8 +807,8 @@ strelka.left= T1.left+T1.width +5*mm;
 function auto(){
 	d = 30;
 
-re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re.setEntirePath( Array( Array(wi-d*mm, hi+5*mm), Array(wi-d*mm, hi+9*mm), Array(wi-(d+2.5)*mm, hi+9*mm), Array(wi-(d+2.5)*mm, hi+5*mm) ) );
+re = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re.setEntirePath( Array( Array(wi-d*mm, hi+5*mm), Array(wi-d*mm, hi+8*mm), Array(wi-(d+2.5)*mm, hi+8*mm), Array(wi-(d+2.5)*mm, hi+5*mm) ) );
 re.closed = true;
 re.filled = true;
 re.stroked = false;
@@ -822,8 +822,8 @@ switch (sInks[0]){
 
 }
 
-re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re.setEntirePath( Array( Array(wi-(d+7.5)*mm, hi+5*mm), Array(wi-(d+7.5)*mm, hi+9*mm), Array(wi-(d+12.5)*mm, hi+9*mm), Array(wi-(d+12.5)*mm, hi+5*mm) ) );
+re = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re.setEntirePath( Array( Array(wi-(d+7.5)*mm, hi+5*mm), Array(wi-(d+7.5)*mm, hi+8*mm), Array(wi-(d+12.5)*mm, hi+8*mm), Array(wi-(d+12.5)*mm, hi+5*mm) ) );
 re.closed = true;
 re.filled = true;
 re.stroked = false;
@@ -835,8 +835,8 @@ switch (sInks[0]){
     case  'Process Black':re.fillColor =PBlack; break;
     default: re.fillColor =app.activeDocument.swatches[sInks[0]].color; break;
                 }
-re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re.setEntirePath( Array( Array(wi-(d+15)*mm, hi+5*mm), Array(wi-(d+15)*mm, hi+9*mm), Array(wi-(d+17.5)*mm, hi+9*mm), Array(wi-(d+17.5)*mm, hi+5*mm) ) );
+re = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re.setEntirePath( Array( Array(wi-(d+15)*mm, hi+5*mm), Array(wi-(d+15)*mm, hi+8*mm), Array(wi-(d+17.5)*mm, hi+8*mm), Array(wi-(d+17.5)*mm, hi+5*mm) ) );
 re.closed = true;
 re.filled = true;
 re.stroked = false;
@@ -849,8 +849,8 @@ switch (sInks[0]){
     default: re.fillColor =app.activeDocument.swatches[sInks[0]].color; break;
                 }
                 
-re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+9*mm), Array(wi-(d+27.5)*mm, hi+9*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
+re = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+8*mm), Array(wi-(d+28.075)*mm, hi+8*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
 re.closed = true;
 re.filled = true;
 re.stroked = false;
@@ -869,8 +869,8 @@ autoX = re.left;
                 
 for (i=1; i < sInks.length; i++){
     
-re = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+9*mm), Array(wi-(d+27.5)*mm, hi+9*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
+re = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+8*mm), Array(wi-(d+28.075)*mm, hi+8*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
 re.closed = true;
 re.filled = true;
 re.stroked = false;
@@ -884,8 +884,8 @@ switch (sInks[0]){
                 }
 autoX -= 13*mm;
             
-re1 = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re1.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+9*mm), Array(wi-(d+27.5)*mm, hi+9*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
+re1 = Auto1.pathItems.rectangle( 0, hi, 1, hi+3*mm);
+re1.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+8*mm), Array(wi-(d+28.075)*mm, hi+8*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
 re1.closed = true;
 re1.filled = true;
 re1.stroked = false;
@@ -902,7 +902,7 @@ i++;
 autoX -= 13*mm;
 if (i < sInks.length){
 re2 = Auto1.pathItems.rectangle( 0, hi, 1, hi+4*mm);
-re2.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+9*mm), Array(wi-(d+27.5)*mm, hi+9*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
+re2.setEntirePath( Array( Array(wi-(d+25.5)*mm, hi+5*mm), Array(wi-(d+25.5)*mm, hi+8*mm), Array(wi-(d+28.075)*mm, hi+8*mm), Array(wi-(d+29.8)*mm, hi+5*mm) ) );
 re2.closed = true;
 re2.filled = true;
 re2.stroked = false;
