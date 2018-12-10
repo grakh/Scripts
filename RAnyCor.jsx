@@ -1,199 +1,12 @@
-/////////////////////////////////////////////////////////////////
-//Create Scallop
-//>=--------------------------------------
-//don@list.ru
-//version 2.1
-//////////////////////////////////////////////////////////////////
-
-
-	var mm = 72.0/25.4;	
-	var sel = [];
-	var fsel = [];
-	var offsetvalue=0.6*mm;
-
-
-var docRef= app.activeDocument;
-var layerAct = docRef.activeLayer;
-
-		//if ( docRef.layers.layerName.indexOf("scallop") != -1 )  ;
-//			P_Test = docRef.layers.add(); 
-		//activeDocument.activeLayer = P_Test; (activeDocument.layers["Layer 1"]; )
-		//default_layer.hasSelectedArtwork  =true; // так будет выделено все на дефолтном слое
-//		P_Test.zOrder(ZOrderMethod.BRINGTOFRONT);
-//		P_Test.name="scallop";
-//		P_Test.locked = false;
-
-		
-		
-		
-var PRisk= new CMYKColor();
-    PRisk.name = 'labelColor';
-    PRisk.black = 0; 
-    PRisk.cyan = 0; 
-    PRisk.magenta = 100; 
-    PRisk.yellow = 0;
-		
-if ( app.documents.length > 0)
-{	
- 
- ci_r  = prompt("Scallop Radius:", 1.2)*mm;
- 
- offsetvalue = ci_r/2;
+﻿// Round Any Corner
 
 
 
-
-
-/*
-app.executeMenuCommand ('OffsetPath v23'); 
-	//if(activeDocument.selection[0].typename =="PathItem" ){
-		s = activeDocument.selection[0];
-		s.moveToBeginning( Temp );
-		s.strokeColor = PRisk;
-		s.strokeWidth = 0.1*mm;
-		s.filled = false;
-	//}
- */
-
-  selal(offsetvalue);
-  //layerAct.locked = false;
-  selal(-offsetvalue);
-  //layerAct.locked = false;  
-  offsetvalue = -offsetvalue;
-  selal(offsetvalue);
-  //layerAct.locked = false;
-  selal(-offsetvalue);
-  //getPathItemsInSelection(1, sel); // extract pathItems which pathpoints length is greater than 1
-  roundAnyCorner(ci_r);
-  //scallop(sel, offsetvalue);
-  //Temp.remove();
-  //P_Test.locked = true;
-  //layerAct.locked = false;
-  //app.executeMenuCommand ('selectall');
-
-  //getPathItemsInSelection(1, sel);
-  //offsets (sel, -offsetvalue);
-  //P_Test.locked = false;
-  //layerAct.locked = true;
-  //scallop(sel, offsetvalue);
-  //Temp.remove();
-		
-} 
-
-
-
-else{
-alert("Please select a single non-compound path only.");
-}
-
-function selal(offsetvalue){
-var mSel = docRef.selection;
-
-		Temp = docRef.layers.add();
-		//P_Test.zOrder(ZOrderMethod.BRINGTOFRONT);
-		Temp.name="Temp";
-
-//Temp.hasSelectedArtwork = true;
-var selection = activeDocument.selection;
-var groupItem = Temp.groupItems.add();
-//var groupItem2 = Temp.groupItems.add();
-var count = selection.length;
-for(var i = 0; i < count; i++) {
-    var item = selection[selection.length - 1];
-	//var item2 = item;
-    item.moveToBeginning(groupItem);
-	//item2.moveToBeginning(groupItem2);
-}
-groupItem.moveToBeginning(layerAct);
-offsets(mSel, offsetvalue);
-Temp.remove();
-//groupItem2 = groupItem.duplicate();
-//groupItem2.moveToBeginning(layerAct);
-//layerAct.locked = true;
-}
-
-function scallop(sel, offsetvalue){
-			try{
-			for (var i =0; i<sel.length; i++){
-			var cropGroup = P_Test.groupItems.add();
-			cropGroup.name= "scallops";
-			
-			//-- 
-			 
-
-			adsspp = sel[i].selectedPathPoints;
-			adssppLen = adsspp.length;
-			var dif = offsetvalue;
-			for (var x = 0;x<adssppLen;x++){
-				if(adsspp[x].pointType != PointType.SMOOTH){
-					var ellipse = cropGroup.pathItems.ellipse(adsspp[x].anchor[1]+dif, adsspp[x].anchor[0]-dif, ci_r, ci_r, false, true );
-						ellipse.strokeColor = PRisk;
-						ellipse.strokeWidth = 0.1*mm;
-						ellipse.filled = false;
-					}
-				}
-
-			}
-		}
-		catch(e) {
-			alert("Problem Found:\n"+e);
-		}
-}
-
-function getPathItemsInSelection(n, pathes){
-  if(documents.length < 1) return;
-  
-  var sel = activeDocument.selection;
-  
-  if (!(sel instanceof Array) || sel.length < 1) return;
-
-  extractPathes(sel, n, pathes);
-}
-
-
-function extractPathes(sel, pp_length_limit, pathes){
-  for(var i = 0; i < sel.length; i++){
-    if(sel[i].typename == "PathItem"){
-      if(pp_length_limit
-         && sel[i].pathPoints.length <= pp_length_limit){
-        continue;
-      }
-      pathes.push(sel[i]);
-      
-    } else if(sel[i].typename == "GroupItem"){
-      // search for PathItems in GroupItem, recursively
-      extractPathes(sel[i].pageItems, pp_length_limit, pathes);
-      
-    } else if(sel[i].typename == "CompoundPathItem"){
-      // searches for pathitems in CompoundPathItem, recursively
-      // ( ### Grouped PathItems in CompoundPathItem are ignored ### )
-      extractPathes(sel[i].pathItems, pp_length_limit , pathes);
-    }
-  }
-}
-
-function offsets (Sel, offsetvalue){
-	
-var jointype ='Round';
-var miterlimitvalue = '4';
-// Live заменить на Adobe, иначе выдаст эффект "Feather"
-//xmlstring = '<LiveEffect name="Live Offset Path"><Dict data="R mlim '+miterlimitvalue + ' R ofst ' + offsetvalue + ' I jntp ' + jointype + '"/></LiveEffect>';
-xmlstring = '<LiveEffect name="Adobe Offset Path"><Dict data="R CornerRadius 10 R mlim '+miterlimitvalue + ' R ofst ' + offsetvalue + ' I jntp ' + jointype + '"/></LiveEffect>';
-for (i = 0; i < Sel.length; i++)
-{
-Sel[i].applyEffect(xmlstring);
-} 
-
-//app.executeMenuCommand ('expandStyle');
-executeMenuCommand("group");
-executeMenuCommand("Live Pathfinder Add");
-executeMenuCommand("expandStyle");
-}
-
-function roundAnyCorner(ofval){
+roundAnyCorner();
+function roundAnyCorner(){
   // setting ----------------------------------------------
   
-  var rr = mm*parseFloat(ofval);
+  var rr = 2;
 
   // ------------------------------------------------------
 
@@ -201,7 +14,18 @@ function roundAnyCorner(ofval){
   getPathItemsInSelection(1, s); // extract pathItems which pathpoints length is greater than 1
   if(s.length < 1) return;
 
+  // When use half width of foreground path as rounding radius
 
+  
+
+    rr = prompt("Radius\r-- you can use unit(\"pt\", \"mm\"(default), \"in\")\r   and operator ( + - * / )", rr); // input the radius;
+    
+    if(!rr) return;
+    
+    rr = rr.replace(/mm/ig, "*2.83464567");
+    rr = rr.replace(/pt/ig, "");
+    rr = rr.replace(/in/ig, "*72");
+    rr = rr.replace(/\s+/g,"*2.83464567");
     
     try{
       var eval_rr = eval(rr);
@@ -612,7 +436,7 @@ function readjustAnchors(p){
 
   // merge the anchor points when the distance between
   // 2 points is within ### square root ### of this value (in point)
-  var minDist = 0.01; 
+  var minDist = 0.0025; 
   
   // ===================================
   if(p.length < 2) return 1;
@@ -658,4 +482,3 @@ function getDat(p){ // pathPoint
 function isSelected(p){ // PathPoint
   return p.selected == PathPointSelection.ANCHORPOINT;
 }
- 
