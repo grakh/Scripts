@@ -10,6 +10,8 @@ var skipSwatches = 0;
 var swtsRem = 0;
 deleteUnusedSwatches();
 var DELTA200=200;
+var myListIndex;
+var mm=72/25.4;
   
 docRef = activeDocument;
 sel=docRef.selection;
@@ -56,7 +58,7 @@ if (sel.length < 1) {alert("No select oject"); return}
 // название скрипта
 var the_title = "ASTROLON";
 // версия скрипта
-var the_version = "0.2";
+var the_version = "0.3";
 
 var SWATCHES = new Array();
 //None= '[None]';
@@ -241,27 +243,31 @@ function GetScriptsFolder() {
 function selBounds(fills)
 	{
 	if (fills=='[Registration]') {alert ("Не пантон!");return};
-	mm=72/25.4;
+	
 if (parseInt(editHeight.text)<100) {alert ("Ширину астролона введем?\nВ миллиметрах."); return;}
 	newlayer = docRef.layers.add();
 	newlayer.name = "AST";
-	//alert(fills);
+
 	
+myListIndex = myDropDown.selection.index;
+//alert(myListIndex);
 
 var nSpot = app.activeDocument.swatches.getByName(fills);
 NameAST = "AST_"+fills;
 var newSpot;
-
+//alert(nSpot.color);
 //var newSpot;
 //var spotvalue = [];		
 var p = fills.split(" ");
-if (p[0]=="PANTONE") {	
+if (nSpot.color == '[SpotColor]') {	//p[0]=="PANTONE"
 		//newSpot = app.activeDocument.swatches.add();
 		//newSpot = new SpotColor();
 		//newSpot.spot = nSpot.spot;
 		//newSpot = app.activeDocument.swatches.duplicate(nSpot);
 		//newSpot.color = nSpot.color;
-		newSpot = addProcSwatch(fills);
+		var tr = false;
+		if (p[0]=="PANTONE") tr = true;
+		newSpot = addProcSwatch(fills, tr);
 		//nSpot.colorType = ColorModel.PROCESS;
 //		spotvalue = nSpot.color.spot.getInternalColor(); 
     //alert(spotvalue);
@@ -345,8 +351,52 @@ switch (fills){
 	case  'Process Black': Bes.strokeColor = PBlack; break;
 	default: Bes.strokeColor =app.activeDocument.swatches[fills].color;
 	}
+	
+if (check.value) Planka(newlayer, myListIndex, fills, LobjX, RobjY);
+else	Planka(newlayer, myListIndex, fills, LobjX, LobjY);
+	
 alert("Совмещаем линию центра!");	
 }		
+
+// ====functions start here====
+
+function  Planka(newlayer, listIndex, fil, X, Y){
+				Pl = newlayer.pathItems.add();
+				
+				Pl.filled = false;
+				Pl.stroked = true;
+				Pl.strokeOverprint = true;
+				Pl.strokeWidth = Line.text*mm;
+				Pl.strokeColor =app.activeDocument.swatches[fil].color;
+	
+	switch(listIndex){
+		case 1:  
+				Pl.setEntirePath( Array( Array(X+30*mm, Y+60*mm), Array(X+10*mm, Y+60*mm), Array(X+15*mm, Y+70*mm)  ) );
+				break;
+		case 2:  
+				Pl.setEntirePath( Array( Array(X+30*mm, Y+60*mm), Array(X+13*mm, Y+60*mm)  ) );
+			var pt = Pl.pathPoints.add()
+				pt.anchor = Array(X+13*mm, Y+70*mm);
+				pt.rightDirection = pt.anchor;
+				pt.leftDirection = Array(X+7*mm, Y+65*mm);
+				break;
+		case 3:  
+				Pl.setEntirePath( Array( Array(X+30*mm, Y+60*mm), Array(X+10*mm, Y+60*mm), Array(X+10*mm, Y+70*mm), Array(X+15*mm, Y+70*mm)  ) );
+				break;
+		case 4: Pl1 = newlayer.pathItems.add(); 
+				Pl1.filled = false;
+				Pl1.stroked = true;
+				Pl1.strokeOverprint = true;
+				Pl1.strokeWidth = Line.text*mm;
+				Pl1.strokeColor =app.activeDocument.swatches[fil].color;
+				Pl.setEntirePath( Array( Array(X+30*mm, Y+60*mm), Array(X+10*mm, Y+60*mm), Array(X+10*mm, Y+70*mm), Array(X+15*mm, Y+70*mm)  ) );
+				Pl1.setEntirePath( Array( Array(X+30*mm, Y+62*mm), Array(X+10*mm, Y+62*mm) ) );
+				break;
+		default: break;
+	}
+	
+}
+
 	
 // подпрограмма создания группы в диалоге
 function MAKE_GROUP( where, g_orient, g_a )
@@ -373,26 +423,17 @@ function IS_NO_COLOR( i )
 };// end IS_NO_COLOR
 
 
-// ====functions start here====
 
-function addProcSwatch(swatchToGet)  
+
+function addProcSwatch(swatchToGet, trr)  
 {  
-          var bridgeSwatch = app.activeDocument.swatches.getByName(swatchToGet);  
-          
-		  var newCMYKColor = new CMYKColor();
-		  newCMYKColor.cyan = 100;
-		  newCMYKColor.magenta = 0;
-		  newCMYKColor.yellow = 100;
-		  newCMYKColor.black = 0;
-		  var spotvalue = [];
-		  //var neSpot = app.activeDocument.spots.add();
-		  //neSpot.name = "AST_"+swatchToGet;
-		  //neSpot.color.spot = bridgeSwatch.color.spot.getInternalColor();
+    var bridgeSwatch = app.activeDocument.swatches.getByName(swatchToGet);  
+	bridgeSwatch.colorType = ColorModel.PROCESS;
+    var spotvalue = bridgeSwatch.color.spot.getInternalColor();
 		  
-		  //var newSwatch = new SpotColor();  
-		  //newSwatch.spot = neSpot;
+if (trr) {
+	
 	var color = new LabColor();
-	spotvalue = bridgeSwatch.color.spot.getInternalColor();
     color.l = spotvalue[0];
     color.a = spotvalue[1];
     color.b = spotvalue[2];
@@ -402,7 +443,20 @@ function addProcSwatch(swatchToGet)
     newSpot.colorType = ColorModel.SPOT;
     newSpot.spotKind = SpotColorKind.SPOTLAB;
     newSpot.color = color;
+	
+} else {
+	var color = new CMYKColor();
+    color.cyan = spotvalue[0];
+    color.magenta = spotvalue[1];
+    color.yellow = spotvalue[2];
+	color.black = spotvalue[3];
 
+    var newSpot = app.activeDocument.spots.add();
+    newSpot.name = "AST_"+swatchToGet;
+    newSpot.colorType = ColorModel.SPOT;
+    newSpot.spotKind = SpotColorKind.SPOTCMYK;
+    newSpot.color = color;
+}
 		  //newSwatch=bridgeSwatch.duplicate();
 		  //newSwatch.color = bridgeSwatch.color;
           //var spotName = bridgeSwatch.color.spot.name;  
