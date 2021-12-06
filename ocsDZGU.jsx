@@ -37,6 +37,41 @@ PBlack.cyan = 0;
 PBlack.magenta = 0; 
 PBlack.yellow = 0;
 
+PWhite = new CMYKColor();
+PWhite.name = 'PWhite';
+PWhite.black =0; 
+PWhite.cyan = 0; 
+PWhite.magenta = 0; 
+PWhite.yellow = 0;
+
+PCyan0 = new CMYKColor();
+PCyan0.name = 'Process Cyan';
+PCyan0.black =0; 
+PCyan0.cyan = 0.2; 
+PCyan0.magenta = 0; 
+PCyan0.yellow = 0;
+
+PMagenta0 = new CMYKColor();
+PMagenta0.name = 'Process Magenta';
+PMagenta0.black =0; 
+PMagenta0.cyan = 0; 
+PMagenta0.magenta = 0.2; 
+PMagenta0.yellow = 0;
+
+PYellow0 = new CMYKColor();
+PYellow0.name = 'Process Yellow';
+PYellow0.black =0; 
+PYellow0.cyan = 0; 
+PYellow0.magenta = 0; 
+PYellow0.yellow = 0.2;
+
+PBlack0 = new CMYKColor();
+PBlack0.name = 'Process Black';
+PBlack0.black =0.2; 
+PBlack0.cyan = 0; 
+PBlack0.magenta = 0; 
+PBlack0.yellow = 0;
+
 
 
 // ------------------------------------------------- start
@@ -136,7 +171,7 @@ var res =
 
 
 var dlg = new Window(res);
-var ver = "v0.1";
+var ver = "v1.2";
 dlg.text = "Operational Control Scale  "+ ver;
 
 //Color set menu
@@ -228,6 +263,7 @@ var switchList = parseInt(dlg.Rapp.texte1.text - parseFloat(wi/mm));
 	var TColor = Group.groupItems.add();
 	var PColor = Group.groupItems.add();
 	var TNamber = Group.groupItems.add();
+	var flagNamespace = false;
 	//oW.move(Group1, ElementPlacement.PLACEATBEGINNING);
 
 	var ur=0;
@@ -246,31 +282,42 @@ var switchList = parseInt(dlg.Rapp.texte1.text - parseFloat(wi/mm));
 	//setText(T1, T2, T3, oW, TColor, TNamber, PColor);
 	switch (switchList) {
 		case  8: oporka(Group1, 4); Group1.left=-6*mm; 
-					microDot(Group2, wi/mm+2); break;
+					microDot(Group2, wi/mm+2); 
+					flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace);
+					break;
 		case  9: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
-					microDot(Group2, wi/mm+2); break;
+					microDot(Group2, wi/mm+2); 
+					break;
 		case 10: oporka(Group1, 4); Group1.left=-7*mm; 
-					microDot(Group2, wi/mm+3); break;
+					microDot(Group2, wi/mm+3); 
+					flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace);
+					break;
 		case 11: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
-					microDot(Group2, wi/mm+3); break;
+					microDot(Group2, wi/mm+3); 
+					break;
 		case 12: oporka(Group1, 4); Group1.left=-6*mm;  
 					oporka(Group2, 4); Group2.left = wi+2*mm; break;
 		case 13: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
 					oporka(Group2, 4); Group2.left = wi+2*mm; break;
 		case 14: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
 					oporka(Group2, 4); Group2.left = wi+3*mm; break;
+		case 16:
+		case 17:
 		case 15: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
 					oporka(Group2, 4); Group2.left = wi+3*mm; break;
+		case 19:
 		case 18: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
 					Group2 = Group.duplicate(); Group2.left = wi+2*mm; rez(Group2, wi+7*mm); break;
+		case 21:
+		case 22:
 		case 20: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
 					Group2 = Group.duplicate(); Group2.left = wi+3*mm; rez(Group2, wi+8*mm); break;
-		default: microDot(Group2, 1); microDot(Group2, wi/mm-1);
+		default: microDot(Group2, 1); flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace); microDot(Group2, wi/mm-1);
 	}
 
 	if (dlg.info.check.value) {
 		var gp = parseInt(dlg.info.texte.text);
-		var col = parseInt(wi/mm/gp);
+		var col = parseInt(dlg.info.texte1.text); //parseInt(wi/mm/gp);
 
 		var	gp2 = 0;
 			for (var i = 0; i < col; i++) {
@@ -300,7 +347,7 @@ dlg.show();
 	
 //end body
 
-function setText(T1, T2, T3, oW, TColor, TNamber, PColor){											 
+function setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace){											 
 //-------------------------------------------------------------------------TXT											 
 
 				 
@@ -324,10 +371,10 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor){
 			textName.rotate(90);
 			textName.left = 14;
 			textName.textRange.characterAttributes.fillColor = docRef.swatches[Registr].color;
-			textName.textRange.characterAttributes.overprintFill = true;
-			T3.top=hi/2-12*mm;
-			T3.left = -4*mm;
+			textName.textRange.characterAttributes.fillColor.tint = 99;
+			textName.textRange.characterAttributes.overprintFill = false;
 
+			
 			if (hi/2-14*mm-T3.height < 100*mm) {
 				textName.height = hi/2-12*mm - 102*mm;
 				xh = 100*mm;
@@ -356,11 +403,17 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor){
 
 
 			switch (fills){
-				case  'Process Cyan':  TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?TextC: "C "; textRef.textRange.characterAttributes.fillColor = PCyan; break;
-				case  'Process Magenta': TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?TextC: "M "; textRef.textRange.characterAttributes.fillColor = PMagenta; break;
-				case  'Process Yellow':TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?TextC: "Y "; textRef.textRange.characterAttributes.fillColor = PYellow; break;
-				case  'Process Black': TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?TextC: "K "; textRef.textRange.characterAttributes.fillColor = PBlack; break;
+				case  'Process Cyan':  TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?
+										TextC: "C "; textRef.textRange.characterAttributes.fillColor = PCyan; break;
+				case  'Process Magenta': TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?
+										TextC: "M "; textRef.textRange.characterAttributes.fillColor = PMagenta; break;
+				case  'Process Yellow':TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?
+										TextC: "Y "; textRef.textRange.characterAttributes.fillColor = PYellow; break;
+				case  'Process Black': TextC=(TextC=="W ")?TextC: (TextC=="Lak ")?
+										TextC: "K "; textRef.textRange.characterAttributes.fillColor = PBlack; break;
 				default: textRef.textRange.characterAttributes.fillColor = docRef.swatches[fills].color;
+							//textName.textRange.characterAttributes.fillColor = docRef.swatches[fills].color;
+							//textD.textRange.characterAttributes.fillColor = docRef.swatches[fills].color;
 				}
 			//alert(TextC);
 			
@@ -370,39 +423,62 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor){
 			textRef.contents = TextC;
 			textRef.textRange.characterAttributes.overprintFill = true;
 
+			//textName.textRange.characterAttributes.overprintFill = true;
+			//textD.textRange.characterAttributes.overprintFill = true;
+	
+if(flagNamespace) continue;
+
 			if (!flagWhite) {
 				textRef.textRange.characterAttributes.fillColor = PWhite;
 				textRef.textRange.characterAttributes.overprintFill = false;
+				//T3.fillColor = PWhite;
+				//T3.overprintFill = false;
 			}
 
 			setTextNamber(TNamber, oW, fills, flagWhite, namber++, xh1 += 4*mm);
 
-			if (flagLak || flagWhite) {targetColor (TColor, oW, fills, xh2 += 6*mm); pointColor (PColor, oW, fills, xh -= 6*mm);}
-		
+			if (flagLak || flagWhite) {
+				targetColor (TColor, oW, fills, xh2 += 6*mm);
+				pointColor (PColor, oW, fills, xh -= 6*mm);
+				}
+			
 
 		};
-		//textRef.createOutline();
-		
 
-		var TextDate = new Date();
+		
+		//textRef.createOutline();
+if(flagNamespace) { T1.top = T1.height+10*mm;
+					T1.left = wi+3*mm;
+					T3.top = hi/2+T3.height+10*mm;
+					T3.left = wi+3*mm;
+					return
+				};		
+
+			T3.top=hi/2-12*mm;
+			T3.left = -4*mm;
+
+			var TextDate = new Date();
 			var textD =  T2.textFrames.add();
-			textD.textRange.characterAttributes.size = 8;
-			textD.textRange.characterAttributes.textFont = app.textFonts.getByName(fonts);
-			textD.contents =  Namb + "  "+ TextDate.getDate()+"/"+TextDate.getMonth()+"/"+TextDate.getFullYear();
-			textD.rotate(90);
-			textD.left = 14;
-			textD.textRange.characterAttributes.fillColor = docRef.swatches[Registr].color;
-			textD.textRange.characterAttributes.overprintFill = true;
+				textD.textRange.characterAttributes.size = 8;
+				textD.textRange.characterAttributes.textFont = app.textFonts.getByName(fonts);
+				textD.contents =  Namb + "  "+ TextDate.getDate()+"/"+TextDate.getMonth()+"/"+TextDate.getFullYear();
+				textD.rotate(90);
+				textD.left = 14;
+				textD.textRange.characterAttributes.fillColor = docRef.swatches[Registr].color;
+				textD.textRange.characterAttributes.fillColor.tint = 99;
+				textD.textRange.characterAttributes.overprintFill = false;
+
 			T2.top=hi-13*mm;
 			T2.left = -4*mm;
 		
-				T1.top = hi-13*mm-T2.height-10*mm;
-				T1.left = -4*mm;
+			T1.top = hi-13*mm-T2.height-10*mm;
+			T1.left = -4*mm;
+
+
 
 			ObjectWhite(oW, T1.height, T2.height, T3.height);
 
 			//oW.selected = true;
-	
 			//app.executeMenuCommand('Live Outline Stroke');
 			//app.executeMenuCommand('expandStyle');
 
@@ -412,11 +488,21 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor){
 					//alert(LWhite);
 					for ( var i=0; i<LWhite.pathItems.length; i++) {
 						switch (wColor[j]){
-							case  'Process Cyan':  LWhite.pathItems[i].fillColor = PCyan; break;
-							case  'Process Magenta': LWhite.pathItems[i].fillColor = PMagenta; break;
-							case  'Process Yellow': LWhite.pathItems[i].fillColor = PYellow; break;
-							case  'Process Black': LWhite.pathItems[i].fillColor = PBlack; break;
-							default: LWhite.pathItems[i].fillColor = docRef.swatches[wColor[j]].color;
+							case  'Process Cyan':  
+								LWhite.pathItems[i].fillColor = PCyan; 
+							break;
+							case  'Process Magenta': 
+								LWhite.pathItems[i].fillColor = PMagenta; 
+							break;
+							case  'Process Yellow': 
+								LWhite.pathItems[i].fillColor = PYellow; 
+							break;
+							case  'Process Black': 
+								LWhite.pathItems[i].fillColor = PBlack; 
+							break;
+							default: 
+								LWhite.pathItems[i].fillColor = docRef.swatches[wColor[j]].color;
+
 							}
 						LWhite.pathItems[i].fillOverprint =	true;
 					}
@@ -424,29 +510,67 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor){
 				
 					for ( var i=0; i<LWhite.textFrames.length; i++) {
 						switch (wColor[j]){
+							
 							case  'Process Cyan':  
-							LWhite.textFrames[i].textRange.characterAttributes.fillColor = PCyan;
-							LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PCyan; 
+								LWhite.textFrames[i].textRange.characterAttributes.fillColor = PCyan;
+								LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PCyan; 
 								break;
 							case  'Process Magenta':
 								LWhite.textFrames[i].textRange.characterAttributes.fillColor = PMagenta;
 								LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PMagenta; 
 								break;
 							case  'Process Yellow': 
-							LWhite.textFrames[i].textRange.characterAttributes.fillColor = PYellow;
-							LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PYellow; 
+								LWhite.textFrames[i].textRange.characterAttributes.fillColor = PYellow;
+								LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PYellow; 
 								break;
 							case  'Process Black': 
-							LWhite.textFrames[i].textRange.characterAttributes.fillColor = PBlack;
-							LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PBlack; 
+								LWhite.textFrames[i].textRange.characterAttributes.fillColor = PBlack;
+								LWhite.textFrames[i].textRange.characterAttributes.strokeColor = PBlack; 
 								break;
 							default: 
-							LWhite.textFrames[i].textRange.characterAttributes.fillColor = docRef.swatches[wColor[j]].color;
-							LWhite.textFrames[i].textRange.characterAttributes.strokeColor =docRef.swatches[wColor[j]].color; 
+								LWhite.textFrames[i].textRange.characterAttributes.fillColor = docRef.swatches[wColor[j]].color;
+								LWhite.textFrames[i].textRange.characterAttributes.strokeColor =docRef.swatches[wColor[j]].color; 
 							}
 							LWhite.textFrames[i].textRange.characterAttributes.overprintFill = true;
 							LWhite.textFrames[i].textRange.characterAttributes.overprintStroke = true;
 					}
+				}
+
+				//var textNameW =  T3.textFrames.add();
+				//var textDataW =  T2.textFrames.add();
+		
+				for ( var i=0; i< wColor.length; i++) {
+
+					textNameW = textName.duplicate();
+					textDataW = textD.duplicate();
+
+					switch (wColor[i]){
+						
+						case  'Process Cyan':  
+						textNameW.textRange.characterAttributes.fillColor = PCyan0;
+						textDataW.textRange.characterAttributes.fillColor = PCyan0;
+							break;
+						case  'Process Magenta':
+						textNameW.textRange.characterAttributes.fillColor = PMagenta0;
+						textDataW.textRange.characterAttributes.fillColor = PMagenta0;
+							break;
+						case  'Process Yellow': 
+						textNameW.textRange.characterAttributes.fillColor = PYellow0;
+						textDataW.textRange.characterAttributes.fillColor = PYellow0;
+							break;
+						case  'Process Black': 
+						textNameW.textRange.characterAttributes.fillColor = PBlack0;
+						textDataW.textRange.characterAttributes.fillColor = PBlack0;
+							break;
+						default: 
+						textNameW.textRange.characterAttributes.fillColor = docRef.swatches[wColor[i]].color;
+						textNameW.textRange.characterAttributes.fillColor.tint = 0;
+						textDataW.textRange.characterAttributes.fillColor = docRef.swatches[wColor[i]].color;
+						textDataW.textRange.characterAttributes.fillColor.tint = 0;
+						}
+
+						textNameW.textRange.characterAttributes.overprintFill = true;
+						textDataW.textRange.characterAttributes.overprintFill = true;
 				}
 
 }
@@ -469,6 +593,7 @@ function microDot(mDot, s){
 	var	R1 = mD.pathItems.add();
 		R1 = mD.pathItems.ellipse(1.2*mm, 0.8*mm+s, 0.4*mm, 0.4*mm, false, true );
 		R1.strokeColor = docRef.swatches[Registr].color;
+		R1.strokeColor.tint = 99;
 		R1.strokeWidth = 0.05*mm;
 		R1.stroked = true;
 		R1.filled = false;
@@ -476,6 +601,7 @@ function microDot(mDot, s){
 	var	R2 = mD.pathItems.add();
 		R2 = mD.pathItems.ellipse(1.1*mm, 0.9*mm+s, 0.2*mm, 0.2*mm, false, true );
 		R2.fillColor = docRef.swatches[Registr].color;
+		R2.fillColor.tint = 99;
 		R2.stroked = false;
 		R2.filled = true;
 		R2.fillOverprint = false;
@@ -660,6 +786,7 @@ function targets(groupTarget){
 	square.stroked = true;
 	square.strokeWidth = 0.1*mm;
 	square.strokeColor = docRef.swatches[Registr].color;
+	square.strokeColor.tint = 99;
 	square.strokeOverprint = true;
 	square.fillColor = PWhite;
 	square.fillOverprint = false;
@@ -671,6 +798,7 @@ function targets(groupTarget){
 	circle.fillColor = PWhite;
 	circle.strokeWidth = 0.1*mm;
 	circle.strokeColor = docRef.swatches[Registr].color;
+	circle.strokeColor.tint = 99;
 	circle.strokeOverprint = true;
 
 	crestW = gTarget.pathItems.add();
@@ -680,6 +808,7 @@ function targets(groupTarget){
 	crestW.stroked = true;
 	crestW.strokeWidth = 0.1*mm;
 	crestW.strokeColor = docRef.swatches[Registr].color;
+	crestW.strokeColor.tint = 99;
 	crestW.strokeOverprint = true;
 
 	crestH = gTarget.pathItems.add();
@@ -689,6 +818,7 @@ function targets(groupTarget){
 	crestH.stroked = true;
 	crestH.strokeWidth = 0.1*mm;
 	crestH.strokeColor = docRef.swatches[Registr].color;
+	crestH.strokeColor.tint = 99;
 	crestH.strokeOverprint = true;
 
 	circleW = gTarget.pathItems.ellipse(5.2*mm, -2.7*mm, 0.4*mm, 0.4*mm, false, true );
@@ -700,6 +830,7 @@ function targets(groupTarget){
 	circleR.stroked = false;
 	circleR.filled = true;
 	circleR.fillColor = docRef.swatches[Registr].color;
+	circleR.fillColor.tint = 99;
 
 
 var	gTargetTop = gTarget.duplicate();
@@ -716,6 +847,7 @@ var	gTargetCenter = gTarget.duplicate();
 	circle.filled = false;
 	circle.strokeWidth = 0.1*mm;
 	circle.strokeColor = docRef.swatches[Registr].color;
+	circle.strokeColor.tint = 99;
 	circle.strokeOverprint = true;
 
 	circle = gTargetCenter.pathItems.ellipse(hi/2+4*mm, -4*mm, 3*mm, 8*mm, false, true );
@@ -723,6 +855,7 @@ var	gTargetCenter = gTarget.duplicate();
 	circle.filled = false;
 	circle.strokeWidth = 0.1*mm;
 	circle.strokeColor = docRef.swatches[Registr].color;
+	circle.strokeColor.tint = 99;
 	circle.strokeOverprint = true;
 
 }
