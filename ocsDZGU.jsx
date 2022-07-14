@@ -1,4 +1,4 @@
-//®Klimov S.V. (don@list.ru)
+﻿//®Klimov S.V. (don@list.ru)
 
 mm = 72/25.4;
 
@@ -72,7 +72,33 @@ PBlack0.cyan = 0;
 PBlack0.magenta = 0; 
 PBlack0.yellow = 0;
 
+PCyan40 = new CMYKColor();
+PCyan40.name = 'Process Cyan';
+PCyan40.black =0; 
+PCyan40.cyan = 40; 
+PCyan40.magenta = 0; 
+PCyan40.yellow = 0;
 
+PMagenta40 = new CMYKColor();
+PMagenta40.name = 'Process Magenta';
+PMagenta40.black =0; 
+PMagenta40.cyan = 0; 
+PMagenta40.magenta = 40; 
+PMagenta40.yellow = 0;
+
+PYellow40 = new CMYKColor();
+PYellow40.name = 'Process Yellow';
+PYellow40.black =0; 
+PYellow40.cyan = 0; 
+PYellow40.magenta = 0; 
+PYellow40.yellow = 40;
+
+PBlack40 = new CMYKColor();
+PBlack40.name = 'Process Black';
+PBlack40.black =40; 
+PBlack40.cyan = 0; 
+PBlack40.magenta = 0; 
+PBlack40.yellow = 0;
 
 // ------------------------------------------------- start
 
@@ -171,7 +197,7 @@ var res =
 
 
 var dlg = new Window(res);
-var ver = "v1.2";
+var ver = "v5";
 dlg.text = "Operational Control Scale  "+ ver;
 
 //Color set menu
@@ -439,7 +465,8 @@ if(flagNamespace) continue;
 
 			if (flagLak || flagWhite) {
 				targetColor (TColor, oW, fills, xh2 += 6*mm);
-				pointColor (PColor, oW, fills, xh -= 6*mm);
+				var eh = pointColor (PColor, oW, fills, xh -= 6*mm, false);
+                    xh = eh;
 				}
 			
 
@@ -687,30 +714,63 @@ var s = -2.6*mm;
 	}
 }
 
-function pointColor (PColor, oW, fills, xh){
+function pointColor (PColor, oW, fills, xh, color_flag){
 	var s = -2.6*mm;
+
+    
 	var cirlce = PColor.pathItems.add();
 		cirlce = PColor.pathItems.ellipse(xh+0.2*mm, -4.75*mm, 4.5*mm, 4.5*mm, false, true );
 		cirlce.stroked = false;
 		cirlce.filled = true;
 		cirlce.fillOverprint = true;
-		
-		switch (fills){
-			case  'Process Cyan': cirlce.fillColor = PCyan; break;
-			case  'Process Magenta': cirlce.fillColor = PMagenta; break;
-			case  'Process Yellow': cirlce.fillColor = PYellow; break;
-			case  'Process Black': cirlce.fillColor = PBlack; break;
-			default: cirlce.fillColor = docRef.swatches[fills].color;	
-			}
-
-	var	Opequ = oW.pathItems.add();
+        
+    var Opequ = oW.pathItems.add();
 		Opequ = oW.pathItems.ellipse(xh+0.45*mm, -5*mm, 5*mm, 5*mm, false, true );
 		Opequ.fillColor = PWhite;
 		Opequ.stroked = false;
 		Opequ.filled = true;
 		Opequ.fillOverprint = false;
-
-	
+		
+		switch (fills){
+			case  'Process Cyan':
+                            if (color_flag) {
+                                cirlce.fillColor = PCyan40;
+                                return xh;
+                            } else {
+                                cirlce.fillColor = PCyan;
+                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                }               
+                    break;
+			case  'Process Magenta':
+                            if (color_flag) {
+                                cirlce.fillColor = PMagenta40;
+                                return xh;
+                            } else {
+                                cirlce.fillColor = PMagenta;
+                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                }               
+                    break;
+			case  'Process Yellow':
+                            if (color_flag) {
+                                cirlce.fillColor = PYellow40;
+                                return xh;
+                            } else {
+                                cirlce.fillColor = PYellow;
+                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                }               
+                    break;
+			case  'Process Black':
+                            if (color_flag) {
+                                cirlce.fillColor = PBlack40;
+                                return xh;
+                            } else {
+                                cirlce.fillColor = PBlack;
+                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                }               
+                    break;
+			default: cirlce.fillColor = docRef.swatches[fills].color;	
+			}
+	return xh;
 }
 
 function ObjectWhite(oW, heightT1, heightT2, heightT3){
