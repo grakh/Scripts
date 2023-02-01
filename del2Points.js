@@ -76,8 +76,8 @@ function readjustAnchors(p){
 
   // merge the anchor points when the distance between
   // 2 points is within ### square root ### of this value (in point)
-  var minDist = 0.1; 
-  
+  var minDist = 0.01; 
+  minDist = prompt("Точность ", 0.01);
   // ===================================
   if(p.length < 2) return 1;
   var i;

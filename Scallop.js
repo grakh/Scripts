@@ -36,7 +36,7 @@ var PRisk= new CMYKColor();
 if ( app.documents.length > 0)
 {	
  
- ci_r  = prompt("Scallop Radius:", 1.2)*mm;
+ ci_r  = prompt("Scallop Diametr:", 1.2)*mm;
  
  offsetvalue = ci_r/2;
 

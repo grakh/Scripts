@@ -45,7 +45,7 @@ $LOCALE= app.locale;
 //alert(app.locale);
 $preset='Presets/'+$LOCALE+'/Scripts';
 //alert($preset);
-var SCRIPTS_FOLDER =  decodeURI(app.path + '/' +$preset+ '/PodvalProof.ai');
+var SCRIPTS_FOLDER =  decodeURI(app.path + '/' +$preset+ '/PodvalVMS.ai');
 //alert(SCRIPTS_FOLDER);
 //if (Os[0] == 'M') ListOfFiles = File ('/Applications/Adobe Illustrator CS5.1/Presets.localized/en_GB/Scripts/PodvalProof.ai');    else ListOfFiles = File (path+'\\Presets\\en_US\\Scripts\\PodvalProof.ai');
 //docRef = open(ListOfFiles, DocumentColorSpace.CMYK);
@@ -112,7 +112,7 @@ infoFile.close();
 
 var iF = new Array;
 
-iF = infoLine.split(";");
+//iF = infoLine.split(";");
 
 //alert(iF[1]);
 

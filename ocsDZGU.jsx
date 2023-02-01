@@ -197,7 +197,7 @@ var res =
 
 
 var dlg = new Window(res);
-var ver = "v5";
+var ver = "v6";
 dlg.text = "Operational Control Scale  "+ ver;
 
 //Color set menu
@@ -306,39 +306,45 @@ var switchList = parseInt(dlg.Rapp.texte1.text - parseFloat(wi/mm));
 	//--------------------------------------------------------functions
 	//oporka(Group1, 5);
 	//setText(T1, T2, T3, oW, TColor, TNamber, PColor);
-	switch (switchList) {
-		case  8: oporka(Group1, 4); Group1.left=-6*mm; 
+	switch (true) {
+		case  (switchList >= 0 && switchList < 1): microDot(Group2, 1); flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace);
+					microDot(Group2, wi/mm-1);
+					break;
+		case  (switchList >= 1 && switchList <= 8): oporka(Group1, 4); Group1.left=-6*mm; 
 					microDot(Group2, wi/mm+2); 
 					flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace);
 					break;
-		case  9: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
+		case  (switchList > 8 && switchList <= 9): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
 					microDot(Group2, wi/mm+2); 
 					break;
-		case 10: oporka(Group1, 4); Group1.left=-7*mm; 
+		case (switchList > 9 && switchList <= 10): oporka(Group1, 4); Group1.left=-7*mm; 
 					microDot(Group2, wi/mm+3); 
 					flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace);
 					break;
-		case 11: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
+		case (switchList > 10 && switchList <= 11): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
 					microDot(Group2, wi/mm+3); 
 					break;
-		case 12: oporka(Group1, 4); Group1.left=-6*mm;  
-					oporka(Group2, 4); Group2.left = wi+2*mm; break;
-		case 13: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
-					oporka(Group2, 4); Group2.left = wi+2*mm; break;
-		case 14: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
-					oporka(Group2, 4); Group2.left = wi+3*mm; break;
-		case 16:
-		case 17:
-		case 15: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
-					oporka(Group2, 4); Group2.left = wi+3*mm; break;
-		case 19:
-		case 18: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
-					Group2 = Group.duplicate(); Group2.left = wi+2*mm; rez(Group2, wi+7*mm); break;
-		case 21:
-		case 22:
-		case 20: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
-					Group2 = Group.duplicate(); Group2.left = wi+3*mm; rez(Group2, wi+8*mm); break;
-		default: microDot(Group2, 1); flagNamespace = true; setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace); microDot(Group2, wi/mm-1);
+		case (switchList > 11 && switchList <= 12): oporka(Group1, 4); Group1.left=-6*mm;  
+					oporka(Group2, 4); Group2.left = wi+2*mm;
+					break;
+		case (switchList > 12 && switchList <= 13): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
+					oporka(Group2, 4); Group2.left = wi+2*mm;
+					break;
+		case (switchList > 13 && switchList <= 14): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
+					oporka(Group2, 4); Group2.left = wi+3*mm;
+					break;
+		case (switchList > 14 && switchList <= 17): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
+					oporka(Group2, 4); Group2.left = wi+3*mm;
+					break;
+		case (switchList > 17 && switchList <= 19): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-7*mm; 
+					Group2 = Group.duplicate(); Group2.left = wi+2*mm; rez(Group2, wi+7*mm);
+					break;
+		case (switchList > 19): oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
+					Group2 = Group.duplicate(); Group2.left = wi+3*mm; rez(Group2, wi+8*mm);
+					break;
+				
+		default: oporka(Group1, 5); setText(T1, T2, T3, oW, TColor, TNamber, PColor); Group.left=-8*mm; 
+					Group2 = Group.duplicate(); Group2.left = wi+3*mm; rez(Group2, wi+8*mm);
 	}
 
 	if (dlg.info.check.value) {
@@ -385,7 +391,7 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace){
 		var sk = new Array;
 			sk = sInks;
 			se=sk.length;
-		var xh = hi/2 - 13*mm;
+		var xh = 15*mm;
 		var xh1 = 10*mm;
 		var xh2 = hi/2+5*mm;
 		var namber = 1;
@@ -401,10 +407,10 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace){
 			textName.textRange.characterAttributes.overprintFill = false;
 
 			
-			if (hi/2-14*mm-T3.height < 100*mm) {
-				textName.height = hi/2-12*mm - 102*mm;
-				xh = 100*mm;
-			} else xh -= T3.height;
+			//if (hi/2-14*mm-T3.height < 100*mm) {
+			//	textName.height = hi/2-12*mm - 102*mm;
+			//	xh = 100*mm;
+			//} else xh -= T3.height;
 
 			
 			//alert(sk);
@@ -422,10 +428,11 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace){
 			fills = sk[i];
 			var flagWhite = true;
 			var flagLak = true;
+			var w_flag = false;
 
 			TextC = fills;
-			if (~fills.indexOf("W-")) {fills=fills.slice(2);TextC = "W "; flagWhite = false; wColor.push(fills)};
-			if (~fills.indexOf("L-")) {fills=fills.slice(2);TextC = "Lak "; flagLak = false;};
+			if (~fills.indexOf("W-")) {fills=fills.slice(2);TextC = "W "; flagWhite = false; w_flag=true; wColor.push(fills)};
+			if (~fills.indexOf("L-")) {fills=fills.slice(2);TextC = "Lak "; flagLak = false; w_flag=true;};
 
 
 			switch (fills){
@@ -448,7 +455,7 @@ function setText(T1, T2, T3, oW, TColor, TNamber, PColor, flagNamespace){
 			textRef.top = T1.height;
 			textRef.contents = TextC;
 			textRef.textRange.characterAttributes.overprintFill = true;
-
+			
 			//textName.textRange.characterAttributes.overprintFill = true;
 			//textD.textRange.characterAttributes.overprintFill = true;
 	
@@ -461,11 +468,11 @@ if(flagNamespace) continue;
 				//T3.overprintFill = false;
 			}
 
-			setTextNamber(TNamber, oW, fills, flagWhite, namber++, xh1 += 4*mm);
+			//setTextNamber(TNamber, oW, fills, flagWhite, namber++, xh1 += 4*mm);
 
 			if (flagLak || flagWhite) {
 				targetColor (TColor, oW, fills, xh2 += 6*mm);
-				var eh = pointColor (PColor, oW, fills, xh -= 6*mm, false);
+				var eh = pointColor (PColor, oW, fills, xh += 5*mm, false, w_flag);
                     xh = eh;
 				}
 			
@@ -476,34 +483,35 @@ if(flagNamespace) continue;
 		//textRef.createOutline();
 if(flagNamespace) { T1.top = T1.height+10*mm;
 					T1.left = wi+3*mm;
-					T3.top = hi/2+T3.height+10*mm;
+					T3.top = hi/2+T3.height+12*mm;
 					T3.left = wi+3*mm;
 					return
 				};		
 
-			T3.top=hi/2-12*mm;
-			T3.left = -4*mm;
+			T1.top=hi/2-10*mm;
+			T1.left = -4*mm;
 
 			var TextDate = new Date();
+			
 			var textD =  T2.textFrames.add();
 				textD.textRange.characterAttributes.size = 8;
 				textD.textRange.characterAttributes.textFont = app.textFonts.getByName(fonts);
-				textD.contents =  Namb + "  "+ TextDate.getDate()+"/"+TextDate.getMonth()+"/"+TextDate.getFullYear();
+				textD.contents =  Namb + "  "+ TextDate.getDate()+"/"+(TextDate.getMonth()+1)+"/"+TextDate.getFullYear();
 				textD.rotate(90);
 				textD.left = 14;
 				textD.textRange.characterAttributes.fillColor = docRef.swatches[Registr].color;
 				textD.textRange.characterAttributes.fillColor.tint = 99;
 				textD.textRange.characterAttributes.overprintFill = false;
 
-			T2.top=hi-13*mm;
+			T2.top=hi-12*mm;
 			T2.left = -4*mm;
 		
-			T1.top = hi-13*mm-T2.height-10*mm;
-			T1.left = -4*mm;
+			T3.top = hi-12*mm-T2.height-12*mm;
+			T3.left = -4*mm;
 
 
 
-			ObjectWhite(oW, T1.height, T2.height, T3.height);
+			ObjectWhite(oW, T3.height, T2.height, T1.height);
 
 			//oW.selected = true;
 			//app.executeMenuCommand('Live Outline Stroke');
@@ -714,7 +722,7 @@ var s = -2.6*mm;
 	}
 }
 
-function pointColor (PColor, oW, fills, xh, color_flag){
+function pointColor (PColor, oW, fills, xh, color_flag, w_flag){
 	var s = -2.6*mm;
 
     
@@ -738,7 +746,7 @@ function pointColor (PColor, oW, fills, xh, color_flag){
                                 return xh;
                             } else {
                                 cirlce.fillColor = PCyan;
-                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                var e = pointColor (PColor, oW, fills, xh += 5*mm, true, false);
                                 }               
                     break;
 			case  'Process Magenta':
@@ -747,7 +755,7 @@ function pointColor (PColor, oW, fills, xh, color_flag){
                                 return xh;
                             } else {
                                 cirlce.fillColor = PMagenta;
-                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                var e = pointColor (PColor, oW, fills, xh += 5*mm, true, false);
                                 }               
                     break;
 			case  'Process Yellow':
@@ -756,7 +764,7 @@ function pointColor (PColor, oW, fills, xh, color_flag){
                                 return xh;
                             } else {
                                 cirlce.fillColor = PYellow;
-                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                var e = pointColor (PColor, oW, fills, xh += 5*mm, true, false);
                                 }               
                     break;
 			case  'Process Black':
@@ -765,17 +773,25 @@ function pointColor (PColor, oW, fills, xh, color_flag){
                                 return xh;
                             } else {
                                 cirlce.fillColor = PBlack;
-                                var e = pointColor (PColor, oW, fills, xh -= 6*mm, true);
+                                var e = pointColor (PColor, oW, fills, xh += 5*mm, true, false);
                                 }               
                     break;
-			default: cirlce.fillColor = docRef.swatches[fills].color;	
+			default: 	
+							if (color_flag) {
+								cirlce.fillColor = docRef.swatches[fills].color;
+								cirlce.fillColor.tint = 40;
+								return xh;
+							} else {
+								cirlce.fillColor = docRef.swatches[fills].color;
+								if (!w_flag) var e = pointColor (PColor, oW, fills, xh += 5*mm, true, false);
+							}
 			}
 	return xh;
 }
 
 function ObjectWhite(oW, heightT1, heightT2, heightT3){
 	
-	var hi3 = hi/2-14*mm-heightT3;
+	var hi3 = hi/2-12*mm-heightT3;
 //alert(hi3);
 	rectW = oW.pathItems.rectangle( hi-11*mm, -4.25*mm, 3.5*mm, heightT2+4*mm);
 	rectW .closed = true;
@@ -785,7 +801,7 @@ function ObjectWhite(oW, heightT1, heightT2, heightT3){
 	rectW .fillColor = PWhite;
 
 	rectW2 = oW.pathItems.add();
-	rectW2.setEntirePath( Array( Array(-4.25*mm, hi-13*mm-heightT2-8*mm), Array(-0.75*mm, hi-13*mm-heightT2-8*mm),Array(-0.75*mm, hi-13*mm-heightT2-12*mm - heightT1), Array(-4.25*mm, hi-13*mm-heightT2-12*mm - heightT1)) );
+	rectW2.setEntirePath( Array( Array(-4.25*mm, hi-13*mm-heightT2-10*mm), Array(-0.75*mm, hi-13*mm-heightT2-10*mm),Array(-0.75*mm, hi-13*mm-heightT2-12*mm - heightT1), Array(-4.25*mm, hi-13*mm-heightT2-12*mm - heightT1)) );
 	rectW2 .closed = true;
 	rectW2 .stroked = false;
 	rectW2 .filled = true;
@@ -795,7 +811,7 @@ function ObjectWhite(oW, heightT1, heightT2, heightT3){
 	if (hi3 < 100*mm) hi3 = 100*mm;
 //alert(hi3);
 	rectW3 = oW.pathItems.add();
-	rectW3.setEntirePath( Array( Array(-4.25*mm, hi/2-10*mm), Array(-0.75*mm, hi/2-10*mm), Array(-0.75*mm, hi3), Array(-4.25*mm, hi3)) );
+	rectW3.setEntirePath( Array( Array(-4.25*mm, hi/2-8*mm), Array(-0.75*mm, hi/2-8*mm), Array(-0.75*mm, hi3), Array(-4.25*mm, hi3)) );
 	rectW3 .closed = true;
 	rectW3 .stroked = false;
 	rectW3 .filled = true;
