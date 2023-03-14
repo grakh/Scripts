@@ -54,7 +54,7 @@ function laser(){
 
     //var znamber  = prompt("Zakaz namber:", '');
     //var path = '\\\\storage\\zakaz\\'+znamber.substr (0, znamber.length-3)+'000-'+znamber.substr (0, znamber.length-3)+'999\\'+znamber+'/laser/RLL.dxf';
-    var path = File.saveDialog('Save Where?','.dfx')
+    var path = File.saveDialog('Save Where?','.dxf')
 
     //alert("pathes.length " + pathes.length);
     var SaveFileDefault = new File( path ); 

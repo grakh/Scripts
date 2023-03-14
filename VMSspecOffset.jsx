@@ -239,21 +239,30 @@ dlg.panel2.GR.GR1.del.onClick= function(){
 dlg.panel2.GR.GR1.cut.onClick= function(){
 
 	var colorFill = dlg.panel2.GR.combo.selection.index;
-	dlg.panel2.GR.combo.items[colorFill].text += "-КОНТУР ВЫСЕЧКИ";
+	if (~dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-КОНТУР ВЫСЕЧКИ"))
+		dlg.panel2.GR.combo.items[colorFill].text = dlg.panel2.GR.combo.items[colorFill].text.substring(0,
+			dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-КОНТУР ВЫСЕЧКИ"));
+		else dlg.panel2.GR.combo.items[colorFill].text += "-КОНТУР ВЫСЕЧКИ";
 
 
 }
 dlg.panel2.GR.GR1.noVar.onClick= function(){
 
 	var colorFill = dlg.panel2.GR.combo.selection.index;
-	dlg.panel2.GR.combo.items[colorFill].text += "-ОКНО БЕЗ ЛАКА";
+	if (~dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-ОКНО БЕЗ ЛАКА"))
+		dlg.panel2.GR.combo.items[colorFill].text = dlg.panel2.GR.combo.items[colorFill].text.substring(0,
+			dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-ОКНО БЕЗ ЛАКА"));
+		else dlg.panel2.GR.combo.items[colorFill].text += "-ОКНО БЕЗ ЛАКА";
 
 
 }
 dlg.panel2.GR.GR1.tech.onClick= function(){
 
 	var colorFill = dlg.panel2.GR.combo.selection.index;
-	dlg.panel2.GR.combo.items[colorFill].text += "-ЗОНА ТЕХ. ДОЛИВКИ";
+	if (~dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-ЗОНА ТЕХ. ДОЛИВКИ"))
+		dlg.panel2.GR.combo.items[colorFill].text = dlg.panel2.GR.combo.items[colorFill].text.substring(0,
+			dlg.panel2.GR.combo.items[colorFill].text.lastIndexOf("-ЗОНА ТЕХ. ДОЛИВКИ"));
+		else dlg.panel2.GR.combo.items[colorFill].text += "-ЗОНА ТЕХ. ДОЛИВКИ";
 
 
 }
@@ -324,22 +333,22 @@ var Works = sp[1];
 
 var line = group.pathItems.add();
 //line.setEntirePath( Array(	[0, 0], ) );
-
+/* 
 		switch (Ops){
 			case  'Process Cyan': c = 0; y += 3.2*mm; x = 1; break;
 			case  'Process Magenta': c = 1; y += 3.2*mm; x = 1; break;
 			case  'Process Yellow': c = 2; y += 3.2*mm; xYel = 2.15*mm; x = 1; break;
 			case  'Process Black': c = 3; y += 3.2*mm; yB = -2.15*mm; x = 1; break;
 			default: c = 4; t -= 5.5*mm; y = 0;
-		}
-
-	for (i = 0; i < points[c].length; i++){
-		var newPoint = line.pathPoints.add();
-			newPoint.anchor = points[c][i];
- 			newPoint.leftDirection = newPoint.anchor;
-			newPoint.rightDirection = newPoint.anchor;
-			//newPoint.pointType = PointType.SMOOTH;
-	}		
+		} */
+		c = 4; t -= 5.5*mm; y = 0;
+		for (i = 0; i < points[c].length; i++){ //points[c]
+			var newPoint = line.pathPoints.add();
+				newPoint.anchor = points[c][i];
+				 newPoint.leftDirection = newPoint.anchor;
+				newPoint.rightDirection = newPoint.anchor;
+				//newPoint.pointType = PointType.SMOOTH;
+		}		
 //line = group.pathItems.rectangle( 0, 0, 4.3*mm, 4.3*mm);
 line.closed = true;
 line.filled = true;
@@ -348,15 +357,15 @@ line.fillOverprint = false;
 line.top = t + yB;
 line.left = xt + xYel;
 
-switch (Ops){
-	case  'Process Cyan': line.fillColor = PCyan; Ops = 'C'; break;
-	case  'Process Magenta': line.fillColor = PMagenta; Ops = 'M'; break;
-	case  'Process Yellow': line.fillColor = PYellow; Ops = 'Y'; break;
-	case  'Process Black': line.fillColor = PBlack; Ops = 'K'; break;
+ switch (Ops){
+	case  'Process Cyan': line.fillColor = PCyan; break;
+	case  'Process Magenta': line.fillColor = PMagenta; break;
+	case  'Process Yellow': line.fillColor = PYellow; break;
+	case  'Process Black': line.fillColor = PBlack; break;
 
 
 	default: line.fillColor = app.activeDocument.swatches[Ops].color; 
-	}
+	} 
 
 	if (Works != undefined) {
 		line.filled = false;
@@ -367,7 +376,7 @@ switch (Ops){
 		Ops = Works;
 	}
 	
-var textRef =  group.textFrames.add();
+	var textRef =  group.textFrames.add();
 	textRef.textRange.characterAttributes.size = 11;
 	textRef.contents = Ops;
 	textRef.top = t;
@@ -375,11 +384,11 @@ var textRef =  group.textFrames.add();
 	textRef.textRange.characterAttributes.fillColor = PBlack;
 
 	x++; xYel = 0; yB = 0;
-	if (x > 4) { x = 1; xt += 45*mm; t = hi + 5.5*mm;};
+	if (x > 3) { x = 0; xt += 44*mm; t = hi;};
 }
 
 
-group.left = 72.5*mm;
+group.left = placed2.left + 65*mm;
 group.top = 56*mm;
 
 //alert();

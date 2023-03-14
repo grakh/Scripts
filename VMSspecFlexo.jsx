@@ -316,7 +316,7 @@ var textRef =  group.textFrames.add();
 }
 
 
-group.left = 72.5*mm;
+group.left = placed2.left + 65*mm;
 group.top = 71*mm;
 
 
@@ -363,7 +363,7 @@ switch (T){
 	  for(var k = 0; k < 9; k++) {
 
 
-		rect = group.pathItems.rectangle( 37*mm, 74*mm + k*13.5*mm , 2*mm, 2*mm);
+		rect = group.pathItems.rectangle( 37*mm, placed2.left+67*mm + k*13.5*mm , 2*mm, 2*mm);
 		rect.stroked = true;
 		rect.strokeWidth = 0.25*mm;
 		rect.strokeColor = PBlack;

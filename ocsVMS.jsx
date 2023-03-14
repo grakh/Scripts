@@ -735,14 +735,14 @@ liV.setEntirePath( Array( Array(2.7*mm, -4.7*mm), Array(8.5*mm, -4.7*mm)) );
 liV.filled = false;
 liV.stroked = true;
 liV.strokeWidth = 0.05*mm;
-liV.fillColor = app.activeDocument.swatches[Registr].color;
+liV.strokeColor = app.activeDocument.swatches[Registr].color;
 
 var liV = Auto.pathItems.add();
 liV.setEntirePath( Array( Array(5.6*mm, -3.5*mm), Array(5.6*mm, -5.9*mm)) );
 liV.filled = false;
 liV.stroked = true;
 liV.strokeWidth = 0.05*mm;
-liV.fillColor = app.activeDocument.swatches[Registr].color;
+liV.strokeColor = app.activeDocument.swatches[Registr].color;
 
 var re1 = Auto.pathItems.ellipse( -3.9*mm, 4.7*mm, 0.5*mm, 0.5*mm, false, true );
 re1.closed = true;
